@@ -15,12 +15,7 @@ module Vault
         false
       end
 
-      def exist?(uid)
-        read_data(totp_key(uid)).present?
-      end
-
       def validate?(uid, code)
-        return false unless exist?(uid)
         write_data(totp_code_key(uid), code: code).data[:valid]
       end
 
@@ -41,10 +36,6 @@ module Vault
       end
 
       private
-
-      def totp_key(uid)
-        "totp/keys/#{uid}"
-      end
 
       def totp_code_key(uid)
         "totp/code/#{uid}"
